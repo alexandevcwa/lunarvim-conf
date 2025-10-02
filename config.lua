@@ -8,7 +8,7 @@
 -- ---------------------------------------------------------------------------
 
 -- Tema de color principal
-lvim.colorscheme = "duskfox"
+lvim.colorscheme = "carbonfox"
 
 -- Formateo automático al guardar
 lvim.format_on_save = true
@@ -31,6 +31,7 @@ require("lvim.lsp.manager").setup("angularls")
 -- ---------------------------------------------------------------------------
 
 local formatters = require("lvim.lsp.null-ls.formatters")
+local linters = require("lvim.lsp.null-ls.linters")
 
 -- Prettier para proyectos web
 formatters.setup({
@@ -41,7 +42,7 @@ formatters.setup({
   },
 })
 
--- SQL Formatter (alternativa si no se usa SQLFluff)
+-- Formareo de archivos SQL
 formatters.setup({
   {
     exe = "sql_formatter",
@@ -51,13 +52,55 @@ formatters.setup({
   },
 })
 
-formatters.setup({
-  {
-    exe = "sqlfluff",
-    args = { "fix", "--dialect", "oracle" },
-    filetypes = { "sql" },
+-- formatters.setup({
+--   {
+--     exe = "sqlfluff",
+--     args = { "fix", "--dialect", "oracle" },
+--     filetypes = { "sql" },
+--   },
+-- })
+
+-- Configuramos Ruff para el LINTING (diagnósticos de estilo) Python
+linters.setup {
+  { command = "ruff", filetypes = { "python" } },
+  -- Puedes añadir aquí otros linters si es necesario
+}
+
+-- Configuramos Ruff para el FORMATEO (ej. reemplaza a black) Python
+formatters.setup {
+  { command = "ruff", filetypes = { "python" } },
+  -- { command = "black", filetypes = { "python" } }, -- Si quieres Black como fallback
+}
+
+
+-- ------------------------------
+-- Configuración de LSP (Pyright) Python
+-- ------------------------------
+
+-- Desabilitar Ruff com LSP
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, {
+  "ruff",
+  "ruff_lsp"
+})
+
+-- NOTA: Esto es solo si quieres anular la configuración predeterminada de LunarVim.
+-- Si Pyright ya está funcionando bien, este paso puede ser opcional.
+
+require("lvim.lsp.manager").setup("pyright", {
+  -- Asegura que Pyright no intente formatear (ya lo hace Ruff)
+  capabilities = {
+    documentFormattingProvider = false
+  },
+  -- Configuración de Pyright (ejemplo para forzar el chequeo de tipos estricto)
+  settings = {
+    python = {
+      analysis = {
+        typeCheckingMode = "strict",
+      },
+    },
   },
 })
+
 
 -- ---------------------------------------------------------------------------
 -- CONFIGURACIONES ESPECÍFICAS DE ARCHIVOS
@@ -122,8 +165,9 @@ lvim.builtin.mason.ensure_installed = {
   -- LINTERS / FORMATTERS
   -- ====================
   -- Python
-  "black",  -- Formateador de código Python
-  "pylint", -- Linter de Python
+  --"black",  -- Formateador de código Python
+  "pyright", -- LSP Principal
+  "ruff",    -- Linter y Formatter
 
   -- Bash / Shell
   "beautysh",             -- Formateador de scripts shell
