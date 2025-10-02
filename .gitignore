@@ -1,0 +1,12 @@
+# Archivos temporales y de cache
+*.swp
+*.swo
+*~
+.session.vim
+.netrwhist
+
+# Logs
+*.log
+
+# Archivos específicos de LunarVim que no necesitas versionar
+/lazy-lock.json  # Si prefieres no versionarlo (aunque yo sí lo recomiendo)
