@@ -137,6 +137,7 @@ lvim.plugins = {
   -- Syntax y lenguajes
   { "martinda/Jenkinsfile-vim-syntax" },
   { "nvim-treesitter/nvim-treesitter-angular" },
+  { "windwp/nvim-ts-autotag" },
 
   -- Temas
   { "folke/tokyonight.nvim" },
