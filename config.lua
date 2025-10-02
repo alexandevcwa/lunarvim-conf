@@ -133,35 +133,7 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "BufReadPost" }, {
 -- PLUGINS ADICIONALES
 -- ---------------------------------------------------------------------------
 
-lvim.plugins = {
-  -- Syntax y lenguajes
-  { "martinda/Jenkinsfile-vim-syntax" },
-  { "nvim-treesitter/nvim-treesitter-angular" },
-  { "windwp/nvim-ts-autotag" },
-
-  -- Temas
-  { "folke/tokyonight.nvim" },
-  { "catppuccin/nvim",                        name = "catppuccin" },
-  { "ellisonleao/gruvbox.nvim" },
-  { "navarasu/onedark.nvim" },
-  { "sainnhe/everforest" },
-  { "shaunsingh/nord.nvim" },
-  { "Mofiqul/dracula.nvim" },
-  { "EdenEast/nightfox.nvim" }, -- duskfox incluido
-  { "rose-pine/neovim",                       name = "rose-pine" },
-  { "shaunsingh/solarized.nvim" },
-
-  -- Desarrollo
-  { "windwp/nvim-ts-autotag" }, -- Auto-cierre de tags HTML/JSX
-  { "psf/black" },              -- Formateo Python
-  { "zbirenbaum/copilot.lua" }, -- GitHub Copilot
-
-  -- Git
-  { "tpope/vim-fugitive" },
-  { "lewis6991/gitsigns.nvim" },
-}
-
-lvim.builtin.mason.ensure_installed = {
+local mason_tools = {
   -- ====================
   -- LINTERS / FORMATTERS
   -- ====================
@@ -213,7 +185,63 @@ lvim.builtin.mason.ensure_installed = {
 
   -- SQL
   "sql-formatter", -- Formateador SQL
+
+  -- C++
+  "cpptools", -- DAP
+
+  -- Idiomas
+  "cspell",
 }
+
+-- Mason general
+lvim.builtin.mason.active = true
+lvim.builtin.mason.lsp_installer = true
+
+-- Auto-instalar paquetes al iniciar
+lvim.builtin.mason.auto_install = true
+
+lvim.plugins = {
+  -- Syntax y lenguajes
+  { "martinda/Jenkinsfile-vim-syntax" },
+  { "nvim-treesitter/nvim-treesitter-angular" },
+  { "windwp/nvim-ts-autotag" },
+
+  -- Temas
+  { "folke/tokyonight.nvim" },
+  { "catppuccin/nvim",                        name = "catppuccin" },
+  { "ellisonleao/gruvbox.nvim" },
+  { "navarasu/onedark.nvim" },
+  { "sainnhe/everforest" },
+  { "shaunsingh/nord.nvim" },
+  { "Mofiqul/dracula.nvim" },
+  { "EdenEast/nightfox.nvim" }, -- duskfox incluido
+  { "rose-pine/neovim",                       name = "rose-pine" },
+  { "shaunsingh/solarized.nvim" },
+
+  -- Desarrollo
+  { "psf/black" },              -- Formateo Python
+  { "zbirenbaum/copilot.lua" }, -- GitHub Copilot
+
+  -- Git
+  { "tpope/vim-fugitive" },
+  { "lewis6991/gitsigns.nvim" },
+
+  -- Mason, instalación automática de plugins
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    config = function()
+      require("mason-tool-installer").setup {
+        ensure_installed = mason_tools,
+        auto_update = true,  -- actualiza herramientas automáticamente
+        run_on_start = true, -- instala herramientas al iniciar Neovim
+        start_delay = 3000,  -- tiempo en ms para esperar antes de iniciar la instalación
+        ebounce_hours = 24,  -- evita múltiples actualizaciones en 24h
+      }
+    end
+  },
+}
+
+
 
 
 -- Configuración de plugins
