@@ -117,6 +117,60 @@ lvim.plugins = {
   { "lewis6991/gitsigns.nvim" },
 }
 
+lvim.builtin.mason.ensure_installed = {
+  -- ====================
+  -- LINTERS / FORMATTERS
+  -- ====================
+  -- Python
+  "black",  -- Formateador de código Python
+  "pylint", -- Linter de Python
+
+  -- Bash / Shell
+  "beautysh",             -- Formateador de scripts shell
+  "bash-debug-adapter",   -- Debugger para scripts Bash
+  "bash-language-server", -- Linter y completado para Bash
+
+  -- JavaScript / TypeScript / Frontend
+  "eslint_d",                   -- Linter rápido JS/TS
+  "prettier",                   -- Formateador JS/TS/HTML/CSS/JSON
+  "typescript-language-server", -- Servidor de lenguaje TypeScript
+  "js-debug-adapter",           -- Debugger para Node.js
+
+  -- CSS / HTML / Frontend
+  "css-lsp",                     -- Servidor de lenguaje CSS
+  "html-lsp",                    -- Servidor de lenguaje HTML
+  "tailwindcss-language-server", -- Servidor de lenguaje TailwindCSS
+
+  -- JSON / YAML / XML
+  "json-lsp",             -- Servidor de lenguaje JSON
+  "fixjson",              -- Formateador JSON
+  "yaml-language-server", -- Servidor de lenguaje YAML
+  "yamllint",             -- Linter YAML
+  "lemminx",              -- Servidor de lenguaje XML
+
+  -- Markdown / Documentation
+  "markdown-oxide", -- Procesador rápido de Markdown
+  "doctoc",         -- Generador de tablas de contenido Markdown
+
+  -- Docker / CI
+  "dockerfile-language-server",      -- Servidor de lenguaje Dockerfile
+  "docker-compose-language-service", -- Servidor para docker-compose
+  "gh-actions-language-server",      -- Servidor para GitHub Actions YAML
+  "actionlint",                      -- Linter GitHub Actions YAML
+
+  -- Groovy / Java
+  "groovy-language-server", -- Servidor de lenguaje Groovy
+  "npm-groovy-lint",        -- Linter Groovy vía npm
+
+  -- Angular / Frameworks
+  "angular-language-server", -- Servidor Angular
+  "postgrestools",           -- Herramientas PostgREST / Postgres
+
+  -- SQL
+  "sql-formatter", -- Formateador SQL
+}
+
+
 -- Configuración de plugins
 require("nvim-ts-autotag").setup()
 -- Copilot se puede activar en esta sección
