@@ -32,6 +32,7 @@ require("lvim.lsp.manager").setup("angularls")
 
 local formatters = require("lvim.lsp.null-ls.formatters")
 local linters = require("lvim.lsp.null-ls.linters")
+local lsp = require("lvim.lsp.manager")
 
 -- Prettier para proyectos web
 formatters.setup({
@@ -259,3 +260,29 @@ require("nvim-ts-autotag").setup()
 -- Python:
 --   - Black: pip install black
 -- Git: necesario para plugins de control de versiones
+--
+--
+
+
+lsp.setup("tailwindcss", {
+  filetypes = { "html" },
+  settings = {
+    tailwindCSS = {
+      -- Solo analiza los lenguajes que realmente usas
+      includeLanguages = {
+        html = "html",
+        --javascript = "javascript",
+        typescript = "typescriptreact",
+        --vue = "vue",
+      },
+      lint = {
+        cssConflict = "ignore",  -- ignora conflictos de CSS
+        invalidApply = "ignore", -- ignora advertencias de clases inválidas
+      },
+      experimental = {
+        classRegex = {}, -- regex personalizado vacío para mejorar rendimiento
+      },
+    },
+  },
+
+})
