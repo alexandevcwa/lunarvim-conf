@@ -41,44 +41,25 @@ formatters.setup({
     extra_args = { "--tab-width", "2", "--use-tabs", "false" },
     filetypes = { "html", "css", "scss", "javascript", "typescript", "json" },
   },
-})
-
--- Formareo de archivos SQL
-formatters.setup({
   {
     exe = "sql_formatter",
     args = { "--language", "plsql" },
     extra_args = { "--tab-width", "4", "--use-tabs", "false" },
     filetypes = { "sql" },
   },
+  { command = "ruff", filetypes = { "python" } },
 })
-
--- formatters.setup({
---   {
---     exe = "sqlfluff",
---     args = { "fix", "--dialect", "oracle" },
---     filetypes = { "sql" },
---   },
--- })
 
 -- Configuramos Ruff para el LINTING (diagnósticos de estilo) Python
 linters.setup {
   { command = "ruff", filetypes = { "python" } },
-  -- Puedes añadir aquí otros linters si es necesario
 }
-
--- Configuramos Ruff para el FORMATEO (ej. reemplaza a black) Python
-formatters.setup {
-  { command = "ruff", filetypes = { "python" } },
-  -- { command = "black", filetypes = { "python" } }, -- Si quieres Black como fallback
-}
-
 
 -- ------------------------------
 -- Configuración de LSP (Pyright) Python
 -- ------------------------------
 
--- Desabilitar Ruff com LSP
+-- Desabilitar Ruff como LSP
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, {
   "ruff",
   "ruff_lsp"
@@ -96,7 +77,7 @@ require("lvim.lsp.manager").setup("pyright", {
   settings = {
     python = {
       analysis = {
-        typeCheckingMode = "strict",
+        typeCheckingMode = "standard",
       },
     },
   },
