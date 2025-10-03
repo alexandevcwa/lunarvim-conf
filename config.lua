@@ -7,6 +7,13 @@
 -- GENERAL
 -- ---------------------------------------------------------------------------
 
+-- Cambiar forma del cursor según el modo
+vim.opt.guicursor = ""
+vim.cmd([[
+  set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+  set guicursor+=a:blinkwait700-blinkoff400-blinkon250
+]])
+
 -- Tema de color principal
 lvim.colorscheme = "carbonfox"
 
@@ -42,9 +49,8 @@ formatters.setup({
     filetypes = { "html", "css", "scss", "javascript", "typescript", "json" },
   },
   {
-    exe = "sql_formatter",
-    args = { "--language", "plsql" },
-    extra_args = { "--tab-width", "4", "--use-tabs", "false" },
+    command = "sql-formatter",
+    extra_args = { "--language", "plsql", "--tab-width", "4", "--use-tabs", "false" },
     filetypes = { "sql" },
   },
   { command = "ruff", filetypes = { "python" } },
@@ -201,7 +207,6 @@ lvim.plugins = {
   { "shaunsingh/solarized.nvim" },
 
   -- Desarrollo
-  { "psf/black" },              -- Formateo Python
   { "zbirenbaum/copilot.lua" }, -- GitHub Copilot
 
   -- Git
@@ -217,7 +222,7 @@ lvim.plugins = {
         auto_update = true,  -- actualiza herramientas automáticamente
         run_on_start = true, -- instala herramientas al iniciar Neovim
         start_delay = 3000,  -- tiempo en ms para esperar antes de iniciar la instalación
-        ebounce_hours = 24,  -- evita múltiples actualizaciones en 24h
+        debounce_hours = 24, -- evita múltiples actualizaciones en 24h
       }
     end
   },
@@ -244,26 +249,21 @@ require("nvim-ts-autotag").setup()
 --
 --
 
-
 lsp.setup("tailwindcss", {
   filetypes = { "html" },
   settings = {
     tailwindCSS = {
-      -- Solo analiza los lenguajes que realmente usas
       includeLanguages = {
         html = "html",
-        --javascript = "javascript",
         typescript = "typescriptreact",
-        --vue = "vue",
       },
       lint = {
-        cssConflict = "ignore",  -- ignora conflictos de CSS
-        invalidApply = "ignore", -- ignora advertencias de clases inválidas
+        cssConflict = "ignore",
+        invalidApply = "ignore",
       },
       experimental = {
-        classRegex = {}, -- regex personalizado vacío para mejorar rendimiento
+        classRegex = {},
       },
     },
   },
-
 })
