@@ -15,10 +15,25 @@ vim.cmd([[
 ]])
 
 -- Tema de color principal
-lvim.colorscheme = "carbonfox"
+lvim.colorscheme = "tokyonight-night"
 
 -- Formateo automático al guardar
 lvim.format_on_save = true
+
+-- ---------------------------------------------------------------------------
+-- SINTAX HIGHLIGHTING
+-- ---------------------------------------------------------------------------
+lvim.builtin.treesitter.ensure_installed = {
+  "python",
+  "typescript",
+  "javascript",
+  "lua",
+  "yaml",
+  "sql",
+  "java"
+}
+
+lvim.builtin.treesitter.auto_install = true
 
 -- ---------------------------------------------------------------------------
 -- SERVIDORES LSP
