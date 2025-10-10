@@ -62,7 +62,6 @@ lvim.builtin.treesitter.ensure_installed = {
   "lua",        -- Lua (para configuración de Neovim)
   "yaml",       -- YAML (Docker, CI/CD)
   "sql",        -- SQL (bases de datos)
-  "java"        -- Java
 }
 
 -- Permite la instalación automática de parsers cuando se abre un archivo nuevo
@@ -121,6 +120,21 @@ require("lvim.lsp.manager").setup("pyright", {
   },
 })
 
+-- -----------------------------------------------------------------------------
+-- 3.4 Copilot LSP
+-- -----------------------------------------------------------------------------
+-- require("lvim.lsp.manager").setup("copilot", {
+--   filetypes = { "javascript", "typescript", "python", "lua", "html", "css", "markdown", "sql", "sh", "json", "yaml", "typescriptreact", "Jenkinsfile" },
+--   root_dir = function(fname)
+--     return require("lspconfig.util").find_git_ancestor(fname) or vim.loop.cwd()
+--   end,
+--   settings = {
+--     copilot = {
+--       -- Puedes agregar settings específicos aquí si los necesitas
+--     }
+--   }
+-- })
+
 -- =============================================================================
 -- 4. FORMATTERS Y LINTERS
 -- =============================================================================
@@ -129,6 +143,7 @@ require("lvim.lsp.manager").setup("pyright", {
 
 local formatters = require("lvim.lsp.null-ls.formatters")
 local linters = require("lvim.lsp.null-ls.linters")
+
 
 -- -----------------------------------------------------------------------------
 -- 4.1 Configuración de Formatters
@@ -148,7 +163,9 @@ formatters.setup({
       "scss",
       "javascript",
       "typescript",
-      "json"
+      "json",
+      "markdown",
+      "yaml"
     },
   },
 
@@ -236,9 +253,9 @@ local mason_tools = {
   "ruff",    -- Linter y formatter ultrarrápido
 
   -- BASH / SHELL -------------------------------------------------------------
-  "beautysh",             -- Formatter para scripts shell
-  "bash-debug-adapter",   -- DAP: Debugger para Bash
-  "bash-language-server", -- LSP: Autocompletado y linting
+  -- "beautysh",             -- Formatter para scripts shell
+  -- "bash-debug-adapter",   -- DAP: Debugger para Bash
+  -- "bash-language-server", -- LSP: Autocompletado y linting
 
   -- JAVASCRIPT / TYPESCRIPT --------------------------------------------------
   "eslint_d",                   -- Linter rápido (daemon) para JS/TS
@@ -253,20 +270,18 @@ local mason_tools = {
 
   -- ARCHIVOS DE CONFIGURACIÓN ------------------------------------------------
   "json-lsp",             -- LSP: JSON con esquemas
-  "fixjson",              -- Formatter: Corrige JSON malformado
   "yaml-language-server", -- LSP: YAML con validación
   "yamllint",             -- Linter: Errores de sintaxis YAML
   "lemminx",              -- LSP: XML con validación
 
   -- DOCUMENTACIÓN ------------------------------------------------------------
   "markdown-oxide", -- LSP: Markdown avanzado
-  "doctoc",         -- Generador de índices para Markdown
 
   -- DEVOPS - DOCKER / CI -----------------------------------------------------
-  "dockerfile-language-server",      -- LSP: Dockerfile
-  "docker-compose-language-service", -- LSP: docker-compose.yml
-  "gh-actions-language-server",      -- LSP: GitHub Actions workflows
-  "actionlint",                      -- Linter: GitHub Actions YAML
+  -- "dockerfile-language-server",      -- LSP: Dockerfile
+  -- "docker-compose-language-service", -- LSP: docker-compose.yml
+  "gh-actions-language-server", -- LSP: GitHub Actions workflows
+  "actionlint",                 -- Linter: GitHub Actions YAML
 
   -- GROOVY / JAVA ------------------------------------------------------------
   "groovy-language-server", -- LSP: Groovy (Jenkinsfile)
@@ -340,8 +355,29 @@ lvim.plugins = {
 
   -- EXPERIENCIA DE USUARIO ---------------------------------------------------
   {
-    "sphamba/smear-cursor.nvim" -- Efecto visual para el cursor
+    "sphamba/smear-cursor.nvim", -- Efecto visual para el cursor
+    config = function()
+      require("smear_cursor").setup({
+        cursor_color = "#d3cdc3",
+        normal_bg = "#282828",
+        smear_between_buffers = true,
+        smear_between_neighbor_lines = true,
+        scroll_buffer_space = true,
+        legacy_computing_symbols_support = false,
+      })
+    end,
   },
+  -- {
+  --   "lukas-reineke/indent-blankline.nvim", -- Líneas de indentación
+  --   config = function()
+  --     require("indent_blankline").setup {
+  --       -- char = "│", -- Carácter para las líneas de indentación
+  --       show_trailing_blankline_indent = false, -- No mostrar en líneas en blanco
+  --       show_current_context = true,            -- Resaltar contexto
+  --       show_current_context_start = true,      -- Resaltar inicio de contexto
+  --     }
+  --   end,
+  -- },
 
   -- GESTIÓN DE HERRAMIENTAS --------------------------------------------------
   {
@@ -355,8 +391,13 @@ lvim.plugins = {
       }
     end
   },
+
+  -- COPILOT -------------------------------------------------------------------
+  { "github/copilot.vim" },
 }
 
+--
+--
 -- =============================================================================
 -- 8. CONFIGURACIÓN DE PLUGINS
 -- =============================================================================
@@ -415,6 +456,14 @@ lsp.setup("tailwindcss", {
       },
     },
   },
+})
+
+
+-- -----------------------------------------------------------------------------
+-- 9.2 Mardown Oxide- Configuración específica para Mardown
+-- -----------------------------------------------------------------------------
+lsp.setup("markdown_oxide", {
+  filetypes = { "markdown" },
 })
 
 -- =============================================================================
