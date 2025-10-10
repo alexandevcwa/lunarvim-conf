@@ -62,6 +62,13 @@ lvim.builtin.treesitter.ensure_installed = {
   "lua",        -- Lua (para configuración de Neovim)
   "yaml",       -- YAML (Docker, CI/CD)
   "sql",        -- SQL (bases de datos)
+  "html",       -- HTML (plantillas web)
+  "css",        -- CSS (estilos web)
+  "json",       -- JSON (configuración)
+  "markdown",   -- Markdown (documentación)
+  "groovy",     -- Groovy (Jenkinsfile)
+  "tsx",        -- TSX (React con TypeScript)
+  "bash",       -- Bash/Shell scripts
 }
 
 -- Permite la instalación automática de parsers cuando se abre un archivo nuevo
@@ -120,20 +127,6 @@ require("lvim.lsp.manager").setup("pyright", {
   },
 })
 
--- -----------------------------------------------------------------------------
--- 3.4 Copilot LSP
--- -----------------------------------------------------------------------------
--- require("lvim.lsp.manager").setup("copilot", {
---   filetypes = { "javascript", "typescript", "python", "lua", "html", "css", "markdown", "sql", "sh", "json", "yaml", "typescriptreact", "Jenkinsfile" },
---   root_dir = function(fname)
---     return require("lspconfig.util").find_git_ancestor(fname) or vim.loop.cwd()
---   end,
---   settings = {
---     copilot = {
---       -- Puedes agregar settings específicos aquí si los necesitas
---     }
---   }
--- })
 
 -- =============================================================================
 -- 4. FORMATTERS Y LINTERS
@@ -183,6 +176,7 @@ formatters.setup({
   -- Ruff: Formatter ultrarrápido para Python
   {
     command = "ruff",
+    extra_args = { "format" },
     filetypes = { "python" }
   },
 })
@@ -252,11 +246,6 @@ local mason_tools = {
   "pyright", -- LSP: Análisis estático y type checking
   "ruff",    -- Linter y formatter ultrarrápido
 
-  -- BASH / SHELL -------------------------------------------------------------
-  -- "beautysh",             -- Formatter para scripts shell
-  -- "bash-debug-adapter",   -- DAP: Debugger para Bash
-  -- "bash-language-server", -- LSP: Autocompletado y linting
-
   -- JAVASCRIPT / TYPESCRIPT --------------------------------------------------
   "eslint_d",                   -- Linter rápido (daemon) para JS/TS
   "prettier",                   -- Formatter universal para web
@@ -278,30 +267,18 @@ local mason_tools = {
   "markdown-oxide", -- LSP: Markdown avanzado
 
   -- DEVOPS - DOCKER / CI -----------------------------------------------------
-  -- "dockerfile-language-server",      -- LSP: Dockerfile
-  -- "docker-compose-language-service", -- LSP: docker-compose.yml
-  "gh-actions-language-server", -- LSP: GitHub Actions workflows
-  "actionlint",                 -- Linter: GitHub Actions YAML
-
-  -- GROOVY / JAVA ------------------------------------------------------------
-  "groovy-language-server", -- LSP: Groovy (Jenkinsfile)
-  "npm-groovy-lint",        -- Linter: Groovy
+  "dockerfile-language-server",      -- LSP: Dockerfile
+  "docker-compose-language-service", -- LSP: docker-compose.yml
 
   -- FRAMEWORKS ---------------------------------------------------------------
   "angular-language-server", -- LSP: Componentes y plantillas Angular
-  "postgrestools",           -- Herramientas para PostgreSQL
 
   -- SQL ----------------------------------------------------------------------
   "sql-formatter", -- Formatter: SQL multiplataforma
 
-  -- C++ ----------------------------------------------------------------------
-  "cpptools", -- DAP: Debugger para C/C++
-
   -- CORRECCIÓN ORTOGRÁFICA ---------------------------------------------------
   "cspell", -- Spell checker para código
 
-  -- COPILOT ------------------------------------------------------------------
-  "copilot-language-server", -- GitHub Copilot
 }
 
 -- -----------------------------------------------------------------------------
@@ -324,9 +301,6 @@ lvim.builtin.mason.auto_install = true
 lvim.plugins = {
   -- SINTAXIS Y LENGUAJES -----------------------------------------------------
   {
-    "martinda/Jenkinsfile-vim-syntax", -- Syntax highlighting para Jenkinsfile
-  },
-  {
     "nvim-treesitter/nvim-treesitter-angular" -- Parser Angular para Treesitter
   },
   {
@@ -334,16 +308,13 @@ lvim.plugins = {
   },
 
   -- TEMAS --------------------------------------------------------------------
-  { "folke/tokyonight.nvim" },                         -- Tema Tokyo Night
-  { "catppuccin/nvim",          name = "catppuccin" }, -- Tema Catppuccin
-  { "ellisonleao/gruvbox.nvim" },                      -- Tema Gruvbox
-  { "navarasu/onedark.nvim" },                         -- Tema One Dark
-  { "sainnhe/everforest" },                            -- Tema Everforest
-  { "shaunsingh/nord.nvim" },                          -- Tema Nord
-  { "Mofiqul/dracula.nvim" },                          -- Tema Dracula
-  { "EdenEast/nightfox.nvim" },                        -- Familia Nightfox (incluye Nordfox)
-  { "rose-pine/neovim",         name = "rose-pine" },  -- Tema Rose Pine
-  { "shaunsingh/solarized.nvim" },                     -- Tema Solarized
+  { "folke/tokyonight.nvim" },    -- Tema Tokyo Night
+  { "ellisonleao/gruvbox.nvim" }, -- Tema Gruvbox
+  { "navarasu/onedark.nvim" },    -- Tema One Dark
+  { "sainnhe/everforest" },       -- Tema Everforest
+  { "shaunsingh/nord.nvim" },     -- Tema Nord
+  { "Mofiqul/dracula.nvim" },     -- Tema Dracula
+  { "EdenEast/nightfox.nvim" },   -- Familia Nightfox (incluye Nordfox)
 
   -- CONTROL DE VERSIONES -----------------------------------------------------
   {
@@ -356,28 +327,17 @@ lvim.plugins = {
   -- EXPERIENCIA DE USUARIO ---------------------------------------------------
   {
     "sphamba/smear-cursor.nvim", -- Efecto visual para el cursor
-    config = function()
-      require("smear_cursor").setup({
-        cursor_color = "#d3cdc3",
-        normal_bg = "#282828",
-        smear_between_buffers = true,
-        smear_between_neighbor_lines = true,
-        scroll_buffer_space = true,
-        legacy_computing_symbols_support = false,
-      })
-    end,
+    -- config = function()
+    --   require("smear_cursor").setup({
+    --     cursor_color = "#d3cdc3",
+    --     normal_bg = "#282828",
+    --     smear_between_buffers = true,
+    --     smear_between_neighbor_lines = true,
+    --     scroll_buffer_space = true,
+    --     legacy_computing_symbols_support = false,
+    --   })
+    -- end,
   },
-  -- {
-  --   "lukas-reineke/indent-blankline.nvim", -- Líneas de indentación
-  --   config = function()
-  --     require("indent_blankline").setup {
-  --       -- char = "│", -- Carácter para las líneas de indentación
-  --       show_trailing_blankline_indent = false, -- No mostrar en líneas en blanco
-  --       show_current_context = true,            -- Resaltar contexto
-  --       show_current_context_start = true,      -- Resaltar inicio de contexto
-  --     }
-  --   end,
-  -- },
 
   -- GESTIÓN DE HERRAMIENTAS --------------------------------------------------
   {
