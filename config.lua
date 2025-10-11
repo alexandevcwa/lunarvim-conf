@@ -85,7 +85,23 @@ lvim.plugins = {
       })
     end
   },
+  -- Experiencia de usuario
+  {
+    "sphamba/smear-cursor.nvim",
+    config = function()
+      require("smear_cursor").setup({
+        -- cursor_color = "#d3cdc3",
+        cursor_color = "#ebdbb2",
+        -- normal_bg = "#282828",
+        smear_between_buffers = true,
+        smear_between_neighbor_lines = true,
+        scroll_buffer_space = true,
+        legacy_computing_symbols_support = false,
+        disable_filetypes = { "TelescopePrompt", "alpha", "NvimTree" },
+      })
+    end,
 
+  },
   -- Soporte de lenguajes
   { "nvim-treesitter/nvim-treesitter-angular" },
   { "windwp/nvim-ts-autotag" }, -- Cierre automático de etiquetas HTML/XML

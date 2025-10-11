@@ -10,7 +10,6 @@ Mi configuración personalizada de LunarVim, diseñada para desarrollo eficiente
 ```bash
 lvim-config/
 ├── config.lua          # ⚙️  Configuración principal
-├── plugins.lua         # 🧩  Gestión de plugins
 ├── lazy-lock.json      # 🔒  Versiones de plugins
 └── README.md           # 📚  Este archivo
 ```
